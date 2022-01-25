@@ -5,6 +5,7 @@
 import React, { useState } from "react";
 import { Button, InputGroup, Form, FormControl } from "react-bootstrap";
 import { Link } from 'react-router-dom';
+import firebase from "../utilities/firebase";
 
 
 function Register(): JSX.Element {
@@ -17,8 +18,7 @@ function Register(): JSX.Element {
 
         
     function handleRegisterUser() {
-        /*
-        let auth = firebase.auth;
+
 
         if (password !== rePassword) {
             alert("Passwords do not match!");
@@ -34,7 +34,7 @@ function Register(): JSX.Element {
 
         alert("1")
     
-        firebase.fbauth.createUserWithEmailAndPassword(auth,email, password).then(data=>{
+        firebase.fbauth.createUserWithEmailAndPassword(firebase.auth,email, password).then(data=>{
 
             alert("2")
 
@@ -65,8 +65,6 @@ function Register(): JSX.Element {
                 alert(errorCode);
                 alert(errorMessage);
             });
-
-            firebase.createUser(email,password,username);
             
 
             
@@ -76,7 +74,18 @@ function Register(): JSX.Element {
     
     return(
         <div>
-            <Form onSubmit={handleRegisterUser}>
+            click <Link to="/">HERE</Link> to login!
+        </div>
+    )
+
+    
+    }
+
+
+export default Register;
+
+/*
+<Form onSubmit={handleRegisterUser}>
                 <h2>Register</h2>
                     <InputGroup>
                         <InputGroup.Text id='email'>
@@ -95,20 +104,4 @@ function Register(): JSX.Element {
                     <Button type='submit' variant='primary'>Register</Button>
                     Or click <Link to="/login">HERE</Link> to login!
             </Form>
-        </div>
-    )
-
-    */
-    }
-
-    return(
-        <div>
-
-                    Or click <Link to="/">HERE</Link> to login!
-
-        </div>
-    )
-
-}
-
-export default Register;
+*/
