@@ -1,5 +1,5 @@
 
-import { BrowserRouter as Router, Route, Link, Routes, Outlet} 
+import { BrowserRouter as Router, Route, Link, Routes, Outlet } 
 from "react-router-dom";
 
 import './App.css';
@@ -8,11 +8,11 @@ import Login from './components/Login';
 import Register from './components/Register';
 import HomePage from './components/HomePage';
 import firebase from './utilities/firebase';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 function App() {
-
-  const [login,setLogin] = useState(true);
+  const [login,setLogin] = useState(false);
 
   useEffect(()=>{
     firebase.fbauth.onAuthStateChanged(firebase.auth,user=>{

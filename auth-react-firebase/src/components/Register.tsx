@@ -3,22 +3,21 @@
 //import { app } from 'firebase-admin';
 //import { IdTokenResult, User } from 'firebase/auth';
 import React, { useState } from "react";
-import { Button, InputGroup, Form, FormControl } from "react-bootstrap";
-import { Link } from 'react-router-dom';
+import {Form,Button, InputGroup, Container, Row, Col, Card} from 'react-bootstrap'
+import { Link, useNavigate } from 'react-router-dom';
 import firebase from "../utilities/firebase";
 
 
 function Register(): JSX.Element {
-
+    
+    let navigate = useNavigate();
     
     const [username,setUsername] = useState<string>('');
     const [password,setPassword] = useState<string>('');
     const [email,setEmail] = useState<string>('');
     const [rePassword,setRePassword] = useState<string>('');
-
         
     function handleRegisterUser() {
-
 
         if (password !== rePassword) {
             alert("Passwords do not match!");
@@ -31,12 +30,8 @@ function Register(): JSX.Element {
             taskCreated: new Date().getTime(),
             taskCompleted: "No",
         }
-
-        alert("1")
     
         firebase.fbauth.createUserWithEmailAndPassword(firebase.auth,email, password).then(data=>{
-
-            alert("2")
 
             let uid = data.user.uid;
             let userRef = firebase.rtdb.ref(firebase.db, `/users/${uid}`);
@@ -58,6 +53,7 @@ function Register(): JSX.Element {
                 console.log(errorCode);
                 console.log(errorMessage);
             });
+            navigate('/');
         
               }).catch(function(error) {
                 const errorCode = error.code;
@@ -66,15 +62,45 @@ function Register(): JSX.Element {
                 alert(errorMessage);
             });
             
-
-            
-            
         }
         
     
     return(
         <div>
-            click <Link to="/">HERE</Link> to login!
+            <Container>
+                <Row>
+                    <Col>
+                        <Card>
+                        <Form>
+                            <h2>Register</h2>
+
+                            <Form.Group className="mb-3">
+                                <Form.Control onChange={(ev: React.ChangeEvent<HTMLTextAreaElement>) => setEmail(ev.target.value)} placeholder='Email'></Form.Control>
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+                                <Form.Control onChange={(ev: React.ChangeEvent<HTMLTextAreaElement>) => setUsername(ev.target.value)} placeholder='Username'></Form.Control>
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+                                <Form.Control onChange={(ev: React.ChangeEvent<HTMLTextAreaElement>) => setPassword(ev.target.value)} placeholder='Password'></Form.Control>
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+                                <Form.Control  onChange={(ev: React.ChangeEvent<HTMLTextAreaElement>) => setRePassword(ev.target.value)} placeholder='Retype-Password'></Form.Control>
+                            </Form.Group>
+                            
+                            <Form.Group>
+                                <Button variant='primary' onClick={handleRegisterUser}>Register</Button>
+                                click <Link to="/">HERE</Link> to login!
+                            </Form.Group>
+
+                        </Form>
+                        </Card>
+                    </Col>
+                </Row>
+            </Container>
+
         </div>
     )
 
@@ -104,4 +130,11 @@ export default Register;
                     <Button type='submit' variant='primary'>Register</Button>
                     Or click <Link to="/login">HERE</Link> to login!
             </Form>
+
+
+
+
+
+
+
 */
