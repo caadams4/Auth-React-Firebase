@@ -1,7 +1,4 @@
-
-import { BrowserRouter as Router, Route, Link, Routes, Outlet } 
-from "react-router-dom";
-
+import { Route, Routes } from "react-router-dom";
 import './App.css';
 import React, { useState,useEffect } from 'react';
 import Login from './components/Login';
@@ -22,35 +19,27 @@ function App() {
         setLogin(true);
       }
     })
-  })
-    //todo - create custom auth object with multiple states 
-
-
-    //todo - create offshore authenication handler
-
-    //todo - create firebase file in a utilities folder
-
-    //todo - rollover n cry
+  });
 
     if (login === true) {
 
       return (
+          <div className="body">
             <Routes>
               <Route path="/" element={<HomePage />}/>
             </Routes>
+          </div>
       )
-    
     } else {
-
       return (
+        <div className="body">
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Routes>
+        </div>
       )
-    
     }
-
 }
 
 export default App;
