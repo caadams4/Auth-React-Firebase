@@ -11,21 +11,31 @@ function Login(): JSX.Element {
     const [messageEmail,setMessageEmail] = useState<string>('');
     const [loginError, setLoginError] = useState<string>('');
 
-    function checkEmail(email: string): boolean {
+    function emailCheck(): boolean {
         const containsAt = email.includes("@");
-        return containsAt;
+
+        if (!containsAt) {
+            setMessageEmail("Not a valid email");
+            return true;
+        }
+        return false;
     }
 
-    function handleLoginUser(){
+    function handleLoginUser() {
 
-        if (!checkEmail(email)) {
-            setMessageEmail("Not a valid email");
+        const inputError = emailCheck();
+
+        if (inputError === true) {
+            return;
         }
 
         firebase.fbauth.signInWithEmailAndPassword(firebase.auth, email, password).catch(function(error) {
             setLoginError("Email and password do not match")
             const errorCode = error.code;
             const errorMessage = error.message;
+            if (errorCode === "auth/wrong-password") {
+                setLoginError("Username/password do not match");
+            }
             console.log(errorCode);
             console.log(errorMessage);
         });
