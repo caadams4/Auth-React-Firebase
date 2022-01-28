@@ -1,4 +1,4 @@
-# React - Firebase authenication boilerplate
+# React - Firebase authentication boilerplate
 
 This authenication page can be used for a signup/signin system. 
 
