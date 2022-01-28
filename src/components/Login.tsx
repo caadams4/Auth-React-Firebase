@@ -18,7 +18,6 @@ function Login(): JSX.Element {
 
     function handleLoginUser(){
 
-
         if (!checkEmail(email)) {
             setMessageEmail("Not a valid email");
         }
@@ -38,44 +37,44 @@ function Login(): JSX.Element {
                 <Col className='center-block'>
                     <div className='cards'> 
                         <Container className='cardGuts'>
-                        <Form>
-                            <h2 className="text-center">Login</h2>
-                                {<div className="text-danger">{loginError}</div>}
-                            <Form.Group>
-                                <label className="mb-1">Email</label>
-                                <Form.Control onChange={(ev: React.ChangeEvent<HTMLTextAreaElement>) => {
-                                        setMessageEmail("");
-                                        setLoginError("");
-                                        setEmail(ev.target.value);
-                                    }
-                                } placeholder='Email'></Form.Control>
-                                {<div className="text-danger">{messageEmail}</div>}
-                            </Form.Group>
+                            <Form>
+                                <h2 className="text-center">Login</h2>
+                                    {<div className="text-danger">{loginError}</div>}
+                                <Form.Group>
+                                    <label className="mb-1">Email</label>
+                                    <Form.Control onChange={(ev: React.ChangeEvent<HTMLTextAreaElement>) => {
+                                            setMessageEmail("");
+                                            setLoginError("");
+                                            setEmail(ev.target.value);
+                                        }
+                                    } placeholder='Email'></Form.Control>
+                                    {<div className="text-danger">{messageEmail}</div>}
+                                </Form.Group>
 
-                            <Form.Group  className="mb-3">
-                                <label className="mb-1">Password</label>
-                                <Form.Control type="password" onChange={(ev: React.ChangeEvent<HTMLTextAreaElement>) => {
-                                        setMessageEmail("");
-                                        setLoginError("");
-                                        setPassword(ev.target.value)
-                                    }
-                                } placeholder='Password'></Form.Control>
-                            </Form.Group>
+                                <Form.Group  className="mb-3">
+                                    <label className="mb-1">Password</label>
+                                    <Form.Control type="password" onChange={(ev: React.ChangeEvent<HTMLTextAreaElement>) => {
+                                            setMessageEmail("");
+                                            setLoginError("");
+                                            setPassword(ev.target.value)
+                                        }
+                                    } placeholder='Password'></Form.Control>
+                                </Form.Group>
 
-                            <Form.Group>
-                                <div  className='col text-center'>
-                                    <Button className="mb-2" variant='primary' onClick={handleLoginUser}>Sign In</Button>
-                                    <br></br>
-                                     Don't have an account? Click <Link to="/register">HERE</Link> to sign up!
-                                </div>
-                            </Form.Group>
+                                <Form.Group>
+                                    <div  className='col text-center'>
+                                        <Button className="mb-2" variant='primary' onClick={handleLoginUser}>Sign In</Button>
+                                        <br></br>
+                                        Don't have an account? Click <Link to="/register">HERE</Link> to sign up!
+                                    </div>
+                                </Form.Group>
 
-                            </Form>
-                        </Container>
-                    </div>
-                </Col>
-            </Row>
-        </Container>
+                                </Form>
+                            </Container>
+                        </div>
+                    </Col>
+                </Row>
+            </Container>
     )
 }
 
