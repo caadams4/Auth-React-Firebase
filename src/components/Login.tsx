@@ -8,9 +8,23 @@ function Login(): JSX.Element {
 
     const [password,setPassword] = useState<string>('');
     const [email,setEmail] = useState<string>('');
+    const [messageEmail,setMessageEmail] = useState<string>('');
+    const [loginError, setLoginError] = useState<string>('');
+
+    function checkEmail(email: string): boolean {
+        const containsAt = email.includes("@");
+        return containsAt;
+    }
 
     function handleLoginUser(){
+
+
+        if (!checkEmail(email)) {
+            setMessageEmail("Not a valid email");
+        }
+
         firebase.fbauth.signInWithEmailAndPassword(firebase.auth, email, password).catch(function(error) {
+            setLoginError("Email and password do not match")
             const errorCode = error.code;
             const errorMessage = error.message;
             console.log(errorCode);
@@ -26,15 +40,26 @@ function Login(): JSX.Element {
                         <Container className='cardGuts'>
                         <Form>
                             <h2 className="text-center">Login</h2>
-
+                                {<div className="text-danger">{loginError}</div>}
                             <Form.Group>
                                 <label className="mb-1">Email</label>
-                                <Form.Control onChange={(ev: React.ChangeEvent<HTMLTextAreaElement>) => setEmail(ev.target.value)} placeholder='Email'></Form.Control>
+                                <Form.Control onChange={(ev: React.ChangeEvent<HTMLTextAreaElement>) => {
+                                        setMessageEmail("");
+                                        setLoginError("");
+                                        setEmail(ev.target.value);
+                                    }
+                                } placeholder='Email'></Form.Control>
+                                {<div className="text-danger">{messageEmail}</div>}
                             </Form.Group>
 
                             <Form.Group  className="mb-3">
                                 <label className="mb-1">Password</label>
-                                <Form.Control type="password" onChange={(ev: React.ChangeEvent<HTMLTextAreaElement>) => setPassword(ev.target.value)} placeholder='Password'></Form.Control>
+                                <Form.Control type="password" onChange={(ev: React.ChangeEvent<HTMLTextAreaElement>) => {
+                                        setMessageEmail("");
+                                        setLoginError("");
+                                        setPassword(ev.target.value)
+                                    }
+                                } placeholder='Password'></Form.Control>
                             </Form.Group>
 
                             <Form.Group>

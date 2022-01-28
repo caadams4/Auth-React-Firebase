@@ -12,22 +12,91 @@ function Register(): JSX.Element {
     const [password,setPassword] = useState<string>('');
     const [email,setEmail] = useState<string>('');
     const [rePassword,setRePassword] = useState<string>('');
-        
+    const [passwordError, setPasswordError] = useState<string>('');
+    const [usernameError, setUsernameError] = useState<string>('');
+    const [emailError, setEmailError] = useState<string>('');
+    const [rePasswordError,setRePasswordError] = useState<string>('');
+    const [registerError,setRegisterError] = useState<string>('');
+
+    function resetErrors() {
+        setEmailError("");
+        setPasswordError("");
+        setUsernameError("");
+        setRePasswordError("");
+    }
+
+    function passwordCheck(): boolean {
+
+        if (password !== rePassword && password.length > 5) {
+            setRePasswordError("Passwords do not match!");
+            setPasswordError("Passwords do not match!");
+            return true;
+        }
+
+        if (password.length < 6) {
+            setPasswordError('Password must contain 6 characters');
+            return true;
+        }
+        return false;
+    }
+
+    function emailCheck(): boolean {
+        const containsAt = email.includes("@");
+
+        if (!containsAt) {
+            setEmailError("Not a valid email");
+            return true;
+        }
+        return false;
+    }
+
+    function usernameCheck(): boolean {
+        if (username.length === 0) {
+            // TODO add username checking. requires db
+            setUsernameError("Enter a username");
+            return true;
+        }
+        return false;
+    }
+
+    function errorCheck(): boolean {
+
+        const pass = passwordCheck();
+
+        const eml = emailCheck();
+
+        const usrn = usernameCheck();
+
+        if (pass === true || eml === true || usrn === true) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
     function handleRegisterUser() {
 
-        if (password !== rePassword) {
-            alert("Passwords do not match!");
+        const inputError = errorCheck();
+
+        if (inputError === true) {
             return;
         }
 
         console.log("creating " + username + "'s account!")
 
-        firebase.fbauth.createUserWithEmailAndPassword(firebase.auth,email, password).catch(function(error) {
+        firebase.fbauth.createUserWithEmailAndPassword(firebase.auth,email, password).then(data => {
+            navigate('/');
+        }).catch(function(error) {
             const errorCode = error.code;
             const errorMessage = error.message;
-            alert(errorCode);
-            alert(errorMessage);
+            if (errorCode === "auth/email-already-in-use") {
+                setRegisterError("Email already in use");
+            }
+            console.log(errorCode);
+            console.log(errorMessage);
         });
+
         
         
         /* --> ** Can be used to push user data to rtdb with above function **
@@ -61,7 +130,7 @@ function Register(): JSX.Element {
             });
             */
 
-            navigate('/');            
+            //navigate('/');            
         }
         
     
@@ -73,25 +142,46 @@ function Register(): JSX.Element {
                         <Container className='cardGuts'>
                         <Form>
                             <h2 className="text-center">Create Account</h2>
-
+                                {<div className="text-danger">{registerError}</div>}
                             <Form.Group>
                                 <label className="mb-1">Email</label>
-                                <Form.Control onChange={(ev: React.ChangeEvent<HTMLTextAreaElement>) => setEmail(ev.target.value)} placeholder='Email'></Form.Control>
+                                <Form.Control onChange={(ev: React.ChangeEvent<HTMLTextAreaElement>) => {
+                                    setEmail(ev.target.value)
+                                    resetErrors();
+                                }
+                                    } placeholder='Email'></Form.Control>
+                                {<div className="text-danger">{emailError}</div>}
                             </Form.Group>
 
                             <Form.Group>
                                 <label className="mb-1">Username</label>
-                                <Form.Control onChange={(ev: React.ChangeEvent<HTMLTextAreaElement>) => setUsername(ev.target.value)} placeholder='Username'></Form.Control>
+                                <Form.Control onChange={(ev: React.ChangeEvent<HTMLTextAreaElement>) => {
+                                    setUsername(ev.target.value)
+                                    resetErrors();
+                                }
+                                    } placeholder='Username'></Form.Control>
+                                {<div className="text-danger">{usernameError}</div>}
                             </Form.Group>
 
                             <Form.Group>
                                 <label className="mb-1">Password</label>
-                                <Form.Control type="password" onChange={(ev: React.ChangeEvent<HTMLTextAreaElement>) => setPassword(ev.target.value)} placeholder='Password'></Form.Control>
+                                <Form.Control type="password" onChange={(ev: React.ChangeEvent<HTMLTextAreaElement>) => {
+                                    setPassword(ev.target.value)
+                                    resetErrors();
+                                }
+                                    } placeholder='Password'></Form.Control>
+                                    {<div className="text-danger">{passwordError}</div>}
+
                             </Form.Group>
 
                             <Form.Group className="mb-3">
                                 <label className="mb-1">Verify Password</label>
-                                <Form.Control type="password" onChange={(ev: React.ChangeEvent<HTMLTextAreaElement>) => setRePassword(ev.target.value)} placeholder='Retype-Password'></Form.Control>
+                                <Form.Control type="password" onChange={(ev: React.ChangeEvent<HTMLTextAreaElement>) => {
+                                    setRePassword(ev.target.value)
+                                    resetErrors();
+                                }
+                                    } placeholder='Retype-Password'></Form.Control>
+                                {<div className="text-danger">{rePasswordError}</div>}
                             </Form.Group>
                             
                             <Form.Group>
