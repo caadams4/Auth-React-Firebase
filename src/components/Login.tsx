@@ -75,7 +75,7 @@ function Login(): JSX.Element {
                                     <div  className='col text-center'>
                                         <Button className="mb-2" variant='primary' onClick={handleLoginUser}>Sign In</Button>
                                         <br></br>
-                                        Don't have an account? Click <Link to="/register">HERE</Link> to sign up!
+                                        Don't have an account? Click <Link to="/Auth-React-Firebase/register">HERE</Link> to sign up!
                                     </div>
                                 </Form.Group>
 

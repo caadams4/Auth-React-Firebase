@@ -86,7 +86,7 @@ function Register(): JSX.Element {
         console.log("creating " + username + "'s account!")
 
         firebase.fbauth.createUserWithEmailAndPassword(firebase.auth,email, password).then(data => {
-            navigate('/');
+            navigate('/Auth-React-Firebase/');
         }).catch(function(error) {
             const errorCode = error.code;
             const errorMessage = error.message;
@@ -97,40 +97,7 @@ function Register(): JSX.Element {
             console.log(errorMessage);
         });
 
-        
-        
-        /* --> ** Can be used to push user data to rtdb with above function **
-
-        .then(data=>{
-
-            let uid = data.user.uid;
-            let userRef = firebase.rtdb.ref(firebase.db, `/users/${uid}`);
-
-            const initailTask = {
-                taskName: "My first task!",
-                taskDescription: "Make some more tasks",
-                taskCreated: new Date().getTime(),
-                taskCompleted: "No",
-            }
-
-            const userTemplate = { 
-                uid : {
-                    username: username,
-                    email: email,
-                    taskList: [initailTask],
-                    friendList: ["tom"],
-                } 
-            }
-    
-            firebase.rtdb.set(userRef, userTemplate).then(data=>{console.log(data)}).catch(function(error) {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log(errorCode);
-                console.log(errorMessage);
-            });
-            */
-
-            //navigate('/');            
+       
         }
         
     
@@ -188,7 +155,7 @@ function Register(): JSX.Element {
                                 <div  className='col text-center'>
                                     <Button className="mb-2" variant='primary' onClick={handleRegisterUser}>Create Account</Button>
                                     <br></br>
-                                    Already have an account? Click <Link to="/">HERE</Link> to login!
+                                    Already have an account? Click <Link to="/Auth-React-Firebase/">HERE</Link> to login!
                                 </div>
                             </Form.Group>
 
